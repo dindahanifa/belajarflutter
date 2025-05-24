@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter_application/flutter_tiga.dart';
 // import 'package:flutter_application/percobaanflutter.dart';
 // import 'package:flutter_application/tugas_satu_flutter.dart';
 // import 'package:flutter_application/tes_dua_flutter.dart';
 // import 'package:flutter_application/flutter_tiga.dart';
 // import 'package:flutter_application/tugas_dua_flutter.dart';
-import 'package:flutter_application/tugas_empat_flutter.dart';
+// import 'package:flutter_application/tugas_empat_flutter.dart';
+// import 'package:flutter_application/flutter_lima.dart';
+import 'package:flutter_application/tugas_enam_flutter.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -37,7 +42,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 5, 95, 144)),
       ),
-      home: TugasEmpatFlutter()
+      home: FlutterEnam()
     );
   }
 }
