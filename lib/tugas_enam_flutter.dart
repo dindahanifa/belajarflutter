@@ -1,4 +1,10 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application/flutter_tiga.dart';
+import 'package:flutter_application/nav.dart';
+import 'package:flutter_application/tugas_tujuh/tugas_tujuh_flutter.dart';
+
 
 class FlutterEnam extends StatefulWidget {
   const FlutterEnam({super.key});
@@ -9,6 +15,7 @@ class FlutterEnam extends StatefulWidget {
 
 class _FlutterEnamState extends State<FlutterEnam> {
   final passwordController = TextEditingController();
+  bool isVisibility = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +28,13 @@ class _FlutterEnamState extends State<FlutterEnam> {
         ),
         leading: IconButton(
           icon: Icon(Icons.chevron_left, size: 30),
-          onPressed: () {},
+          onPressed: () {
+            // Navigator.pop(context, HalamanNavigator());
+          }
         ),
       ),
+
+// Welcome Back
       backgroundColor: Colors.white,
       body: Column(
         children: [
@@ -44,6 +55,8 @@ class _FlutterEnamState extends State<FlutterEnam> {
               ),
             ],
           ),
+
+// Sign in to your account
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,6 +74,8 @@ class _FlutterEnamState extends State<FlutterEnam> {
               ),
             ],
           ),
+
+// TextField
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,6 +119,8 @@ class _FlutterEnamState extends State<FlutterEnam> {
               ),
             ],
           ),
+
+// Hint Text
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,6 +165,8 @@ class _FlutterEnamState extends State<FlutterEnam> {
                   ),
                 ),
               ),
+
+// Center Right
               SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -176,7 +195,13 @@ class _FlutterEnamState extends State<FlutterEnam> {
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-                    onPressed: () {},
+
+// ElevateButton
+                    onPressed: () {
+                      // Navigator.push(
+                      //   context, 
+                      //   MaterialPageRoute(builder: (context) => FlutterTiga()),);
+                    },
                     child: Text(
                       'Login',
                       style: TextStyle(
@@ -188,6 +213,8 @@ class _FlutterEnamState extends State<FlutterEnam> {
                   ),
                 ),
               ),
+
+// Don't have an account?
               SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -200,6 +227,7 @@ class _FlutterEnamState extends State<FlutterEnam> {
                       color: Colors.black,
                     ),
                   ),
+
                   Column(
                     children: [
                       Padding(
@@ -220,6 +248,8 @@ class _FlutterEnamState extends State<FlutterEnam> {
                   ),
                 ],
               ),
+
+//Campuran Divider
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                 child: Row(
@@ -243,6 +273,8 @@ class _FlutterEnamState extends State<FlutterEnam> {
                   ],
                 ),
               ),
+
+// ElevatedButton
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 5),
                 child: Row(
@@ -258,6 +290,7 @@ class _FlutterEnamState extends State<FlutterEnam> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
+// Google
                             onPressed: () {},
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -275,7 +308,7 @@ class _FlutterEnamState extends State<FlutterEnam> {
                         ),
                       ),
                     ),
-
+// Facebook
                     SizedBox(
                       height: 50,
                       child: Padding(
@@ -308,6 +341,8 @@ class _FlutterEnamState extends State<FlutterEnam> {
                   ],
                 ),
               ),
+
+// Don't have account?
               Row(
                 children: [
                   Padding(
