@@ -22,8 +22,6 @@ class _TugasTujuhFlutterState extends State<TugasTujuhFlutter> {
    FlutterTujuhC(),
    FlutterTujuhD(),
    FlutterTujuhE(),
-
-    Text('Jam'),
   ];
 
   void _onItemTapped(int index) {
@@ -105,4 +103,5 @@ class _TugasTujuhFlutterState extends State<TugasTujuhFlutter> {
       ),
     );
   }
+ 
 }
