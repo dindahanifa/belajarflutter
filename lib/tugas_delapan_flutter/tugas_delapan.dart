@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/tugas_tujuh/tugas_delapan_flutter/delapan_flutter_b.dart';
+import 'package:flutter_application/tugas_delapan_flutter/delapan_flutter_b.dart';
 import 'package:flutter_application/tugas_tujuh/tugas_tujuh_flutter.dart';
 
 class FlutterDelapan extends StatefulWidget {

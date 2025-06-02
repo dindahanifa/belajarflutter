@@ -1,7 +1,7 @@
 // ignore_for_file: unused_import, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application/tugas_tujuh/tugas_delapan_flutter/tugas_delapan.dart';
+import 'package:flutter_application/tugas_delapan_flutter/tugas_delapan.dart';
 import 'package:flutter_application/tugas_tujuh/flutter_tujuh_a.dart';
 import 'package:flutter_application/tugas_tujuh/flutter_tujuh_b.dart';
 // import 'package:flutter_application/flutter_tiga.dart';
