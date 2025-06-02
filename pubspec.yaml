@@ -59,6 +59,40 @@ flutter:
     - assets/google.png
     - assets/btnSigninwithFb.png
     - assets/cde.jpg
+    - assets/ikon buku.png
+    - assets/majalahbaca.jpg
+    - assets/buku.png
+    - assets/tulis.png
+    - assets/membaca.jpg
+    - assets/buah.jpg
+    - assets/sayur.jpg
+    - assets/tv.png
+    - assets/celana.jpg
+    - assets/dress.jpg
+    - assets/gunting.png
+    - assets/snack.jpg
+    - assets/minuman kaleng.png
+    - assets/boneka.jpg
+    - assets/raket.jpg
+    - assets/obat.jpg
+    - assets/mobil.png
+    - assets/sofa.png
+    - assets/sepatu.jpg
+    - assets/kaleng.jpg
+    - assets/tiket.jpg
+    - assets/sunscreen.png
+    - assets/alat suntik.png
+    - assets/buku tulis.jpg
+    - assets/buku baca.png
+    - assets/majalah kompas.jpg
+    - assets/sains.jpg
+    - assets/buku bobo.jpg
+    - assets/buku catatn harian.jpg
+    - assets/buku antologi.jpg
+    - assets/buku kamus.jpg
+    - assets/buku atlas.jpg
+    - assets/buku panduan.jpg
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

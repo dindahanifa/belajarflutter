@@ -41,7 +41,7 @@ class _FlutterDelapanState extends State<FlutterDelapan> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blueGrey,
         unselectedItemColor: Colors.black,
-        unselectedLabelStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+        unselectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.normal),
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.description), label: "deskripsi"),
