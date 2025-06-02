@@ -21,7 +21,7 @@ class HomeSembilan extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => FlutterSembilan()),
                   );
                 }, 
-                style: ElevatedButton.styleFrom(minimumSize: Size(150, 60),
+                style: ElevatedButton.styleFrom(minimumSize: Size(150, 5tu0),
                 textStyle: TextStyle(fontSize: 20),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
                 ),
@@ -29,26 +29,27 @@ class HomeSembilan extends StatelessWidget {
                 ),
             ],
           ),
+          SizedBox(height: 16,),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
                 context, MaterialPageRoute(builder: (context)=> FlutterSembilanB()),
                 );
             }, 
-            style: ElevatedButton.styleFrom(minimumSize: Size(150, 60),
+            style: ElevatedButton.styleFrom(minimumSize: Size(150, 50),
                 textStyle: TextStyle(fontSize: 20),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
                 ),
             child: Text("Map"),
             ),
-          
+          SizedBox(height: 16,),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
                 context, MaterialPageRoute(builder: (context)=> FlutterSembilanC()),
                 );
             }, 
-            style: ElevatedButton.styleFrom(minimumSize: Size(150, 60),
+            style: ElevatedButton.styleFrom(minimumSize: Size(150, 50),
                 textStyle: TextStyle(fontSize: 20),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
                 ),
