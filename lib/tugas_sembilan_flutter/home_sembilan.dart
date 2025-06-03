@@ -21,7 +21,7 @@ class HomeSembilan extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => FlutterSembilan()),
                   );
                 }, 
-                style: ElevatedButton.styleFrom(minimumSize: Size(150, 5tu0),
+                style: ElevatedButton.styleFrom(minimumSize: Size(150, 50),
                 textStyle: TextStyle(fontSize: 20),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
                 ),

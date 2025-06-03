@@ -5,6 +5,7 @@ import 'package:flutter_application/tugas_delapan_flutter/tugas_delapan.dart';
 import 'package:flutter_application/tugas_sembilan_flutter/home_sembilan.dart';
 import 'package:flutter_application/tugas_sembilan_flutter/flutter_sembilan_a.dart';
 import 'package:flutter_application/tugas_sembilan_flutter/flutter_sembilan_b.dart';
+import 'package:flutter_application/tugas_sepuluh_flutter/sepuluh_flutter_a.dart';
 import 'package:flutter_application/tugas_tujuh/flutter_tujuh_a.dart';
 import 'package:flutter_application/tugas_tujuh/flutter_tujuh_b.dart';
 // import 'package:flutter_application/flutter_tiga.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: "/",
       routes: {
-        "/": (context) => HomeSembilan(),
+        "/": (context) => SepuluhFlutterA(),
         // "/flutter_tujuh_a": (context) => FlutterTujuhA(),
         // "/flutter_tujuh_b" : (context) => FlutterTujuhB(),
       },
