@@ -1,7 +1,14 @@
 // ignore_for_file: unused_import, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application/tugas_delapan_flutter/tugas_delapan.dart';
+import 'package:flutter_application/pertemuan_16/register_screen.dart';
+import 'package:flutter_application/flutter_tiga.dart';
+import 'package:flutter_application/pertemuan_16/login_screenapp.dart';
+import 'package:flutter_application/splash_screen.dart';
+import 'package:flutter_application/studycase/siswa_app.dart';
+import 'package:flutter_application/tugas_delapan.dart';
+import 'package:flutter_application/tugas_enam_flutter.dart';
+import 'package:flutter_application/tugas_sebelas_flutter/flutter_sebelas_a.dart';
 import 'package:flutter_application/tugas_sembilan_flutter/home_sembilan.dart';
 import 'package:flutter_application/tugas_sembilan_flutter/flutter_sembilan_a.dart';
 import 'package:flutter_application/tugas_sembilan_flutter/flutter_sembilan_b.dart';
@@ -35,11 +42,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: "/",
-      routes: {
-        "/": (context) => SepuluhFlutterA(),
-        // "/flutter_tujuh_a": (context) => FlutterTujuhA(),
-        // "/flutter_tujuh_b" : (context) => FlutterTujuhB(),
-      },
+    routes: {
+      "/": (context) => InventarisBarang(),
+      // "/login": (context) => FlutterEnam(),
+      // FlutterTiga.id: (context) => FlutterTiga(),
+      // LoginScreenApp.id: (context) => LoginScreenApp(),
+      // RegisterScreenApp.id:(context) => RegisterScreenApp(),
+   
+    },
       debugShowCheckedModeBanner: false,
       title: 'Belajar_flutter',
       theme: ThemeData(

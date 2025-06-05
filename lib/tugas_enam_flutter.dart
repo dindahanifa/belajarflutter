@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/flutter_tiga.dart';
 import 'package:flutter_application/nav.dart';
 import 'package:flutter_application/tugas_tujuh/tugas_tujuh_flutter.dart';
-
+import 'package:flutter_application/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application/utils/preference_handler.dart';
 
 class FlutterEnam extends StatefulWidget {
+  static String id = '';
+
   const FlutterEnam({super.key});
 
   @override
@@ -195,13 +199,11 @@ class _FlutterEnamState extends State<FlutterEnam> {
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-
 // ElevateButton
-                    onPressed: () {
-                      // Navigator.push(
-                      //   context, 
-                      //   MaterialPageRoute(builder: (context) => FlutterTiga()),);
-                    },
+onPressed: () async {
+  await PreferenceHandler.saveLogin(true);
+  Navigator.pushNamed(context, FlutterTiga.id); 
+},
                     child: Text(
                       'Login',
                       style: TextStyle(
