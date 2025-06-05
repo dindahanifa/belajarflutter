@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_application/tugas_sebelas_flutter/dbhepler_barang.dart';
 import 'package:flutter_application/tugas_sebelas_flutter/model/model_barang.dart';
-import 'package:intl/intl.dart';
 
 class InventarisBarang extends StatefulWidget {
   @override
@@ -9,14 +9,15 @@ class InventarisBarang extends StatefulWidget {
 }
 
 class _InventarisBarangState extends State<InventarisBarang> {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController namaBarangController = TextEditingController();
   final TextEditingController kodeController = TextEditingController();
   final TextEditingController lokasiController = TextEditingController();
   final TextEditingController jumlahController = TextEditingController();
 
-  List<Barang> daftarBarang = [];
-
   DateTime? _selectedDate;
+  List<Barang> daftarBarang = [];
 
   @override
   void initState() {
@@ -38,11 +39,7 @@ class _InventarisBarangState extends State<InventarisBarang> {
     final jumlah = int.tryParse(jumlahController.text) ?? 0;
     final tanggalPerolehan = _selectedDate;
 
-    if (namaBarang.isNotEmpty &&
-        kode > 0 &&
-        lokasi.isNotEmpty &&
-        jumlah > 0 &&
-        tanggalPerolehan != null) {
+    if (_formKey.currentState!.validate() && tanggalPerolehan != null) {
       await DbHelperBarang.insertBarang(Barang(
         namaBarang: namaBarang,
         kode: kode,
@@ -51,6 +48,7 @@ class _InventarisBarangState extends State<InventarisBarang> {
         tanggalPerolehan: DateFormat('yyyy-MM-dd').format(tanggalPerolehan),
       ));
 
+      _formKey.currentState!.reset();
       namaBarangController.clear();
       kodeController.clear();
       lokasiController.clear();
@@ -60,11 +58,12 @@ class _InventarisBarangState extends State<InventarisBarang> {
       });
 
       await muatData();
+      _showDialog();
     }
   }
 
   Future<void> _pickDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    final picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime(2000),
@@ -75,6 +74,146 @@ class _InventarisBarangState extends State<InventarisBarang> {
         _selectedDate = picked;
       });
     }
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Pendataan Tersimpan'),
+        content: Text(
+          'Kode: ${kodeController.text}, Tersimpan'
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Tutup'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFormInput() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          _buildTextField(
+            controller: namaBarangController,
+            label: 'Nama Barang',
+            icon: Icons.inventory,
+            validator: (value) =>
+                value == null || value.isEmpty ? 'Nama barang tidak boleh kosong' : null,
+          ),
+          _buildTextField(
+            controller: kodeController,
+            label: 'Kode',
+            icon: Icons.confirmation_number,
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value == null || value.isEmpty) return 'Kode tidak boleh kosong';
+              if (int.tryParse(value) == null) return 'Kode harus berupa angka';
+              return null;
+            },
+          ),
+          _buildTextField(
+            controller: lokasiController,
+            label: 'Lokasi',
+            icon: Icons.location_on,
+            validator: (value) =>
+                value == null || value.isEmpty ? 'Lokasi tidak boleh kosong' : null,
+          ),
+          _buildTextField(
+            controller: jumlahController,
+            label: 'Jumlah',
+            icon: Icons.calculate,
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value == null || value.isEmpty) return 'Jumlah tidak boleh kosong';
+              if (int.tryParse(value) == null) return 'Jumlah harus berupa angka';
+              return null;
+            },
+          ),
+          SizedBox(height: 16),
+          InkWell(
+            onTap: () => _pickDate(context),
+            child: InputDecorator(
+              decoration: InputDecoration(
+                labelText: 'Tanggal Perolehan',
+                prefixIcon: Icon(Icons.calendar_month),
+                border: OutlineInputBorder(),
+              ),
+              child: Text(
+                _selectedDate != null
+                    ? DateFormat('dd MMM yyyy').format(_selectedDate!)
+                    : 'Pilih Tanggal',
+                style: TextStyle(
+                  color: _selectedDate != null ? Colors.black : Colors.grey.shade600,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: simpanData,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(202, 255, 4, 4),
+            ),
+            child: Text('Simpan Data', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    TextInputType keyboardType = TextInputType.text,
+    String? Function(String?)? validator,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(icon),
+          border: OutlineInputBorder(),
+        ),
+        keyboardType: keyboardType,
+        validator: validator,
+      ),
+    );
+  }
+
+  Widget _buildBarangList() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: daftarBarang.length,
+        itemBuilder: (context, index) {
+          final barang = daftarBarang[index];
+          final formattedDate = DateFormat('dd MMM yyyy').format(
+            DateTime.tryParse(barang.tanggalPerolehan) ?? DateTime.now(),
+          );
+          return ListTile(
+            leading: Text('${index + 1}'),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(barang.namaBarang, style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('Kode: ${barang.kode}'),
+                Text('Lokasi: ${barang.lokasi}'),
+                Text('Jumlah: ${barang.jumlah}'),
+              ],
+            ),
+            subtitle: Text('Tanggal Perolehan: $formattedDate'),
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -93,95 +232,12 @@ class _InventarisBarangState extends State<InventarisBarang> {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            TextField(
-              controller: namaBarangController,
-              decoration: InputDecoration(
-                labelText: 'Nama Barang',
-                prefixIcon: Icon(Icons.inventory),
-              ),
-            ),
-            TextField(
-              controller: kodeController,
-              decoration: InputDecoration(
-                labelText: 'Kode',
-                prefixIcon: Icon(Icons.confirmation_number),
-              ),
-              keyboardType: TextInputType.number,
-            ),
-            TextField(
-              controller: lokasiController,
-              decoration: InputDecoration(
-                labelText: 'Lokasi',
-                prefixIcon: Icon(Icons.location_on),
-              ),
-            ),
-            TextField(
-              controller: jumlahController,
-              decoration: InputDecoration(
-                labelText: 'Jumlah',
-                prefixIcon: Icon(Icons.calculate),
-              ),
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 16),
-            InkWell(
-              onTap: () => _pickDate(context),
-              child: InputDecorator(
-                decoration: InputDecoration(
-                  labelText: 'Tanggal Perolehan',
-                  prefixIcon: Icon(Icons.calendar_month),
-                  border: OutlineInputBorder(),
-                ),
-                child: Text(
-                  _selectedDate != null
-                      ? DateFormat('dd MMM yyyy').format(_selectedDate!)
-                      : 'Pilih Tanggal',
-                  style: TextStyle(
-                    color: _selectedDate != null
-                        ? Colors.black
-                        : Colors.grey.shade600,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: simpanData,
-              child: Text('Simpan Data', style: TextStyle(color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(202, 255, 4, 4),
-              ),
-            ),
+            _buildFormInput(),
             Divider(height: 32),
-            Expanded(
-              child: ListView.builder(
-                itemCount: daftarBarang.length,
-                itemBuilder: (context, index) {
-                  final barang = daftarBarang[index];
-                  final formattedDate = DateFormat('dd MMM yyyy').format(
-                    DateTime.tryParse(barang.tanggalPerolehan) ??
-                        DateTime.now(),
-                  );
-                  return ListTile(
-                    leading: Text('${index + 1}'),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(barang.namaBarang),
-                        Text('Kode: ${barang.kode}'),
-                        Text('Lokasi: ${barang.lokasi}'),
-                        Text('Jumlah: ${barang.jumlah}'),
-                      ],
-                    ),
-                    subtitle: Text('Tanggal Perolehan: $formattedDate'),
-                  );
-                },
-              ),
-            ),
+            _buildBarangList(),
           ],
         ),
       ),
     );
   }
 }
-
