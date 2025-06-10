@@ -9,13 +9,16 @@ class DbHelperBarang {
       join(dbPath, 'barang.db'),
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE barang('
-          'id INTEGER PRIMARY KEY AUTOINCREMENT, '
-          'namaBarang TEXT, '
-          'kode INTEGER, '
-          'lokasi TEXT, '
-          'jumlah INTEGER, '
-          'tanggalPerolehan INTEGER)',
+          '''
+          CREATE TABLE barang(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            namaBarang TEXT,
+            kode INTEGER,
+            lokasi TEXT,
+            jumlah INTEGER,
+            tanggalPerolehan TEXT
+          )
+          ''',
         );
       },
       version: 1,
@@ -38,6 +41,25 @@ class DbHelperBarang {
     return List.generate(
       maps.length,
       (i) => Barang.fromMap(maps[i]),
+    );
+  }
+
+  static Future<void> updateBarang(Barang barang) async {
+    final dbClient = await db();
+    await dbClient.update(
+      'barang',
+      barang.toMap(),
+      where: 'id = ?',
+      whereArgs: [barang.id],
+    );
+  }
+
+  static Future<void> deleteBarang(int id) async {
+    final dbClient = await db();
+    await dbClient.delete(
+      'barang',
+      where: 'id = ?',
+      whereArgs: [id],
     );
   }
 }

@@ -4,13 +4,16 @@ import 'package:flutter_application/tugas_sebelas_flutter/dbhepler_barang.dart';
 import 'package:flutter_application/tugas_sebelas_flutter/model/model_barang.dart';
 
 class InventarisBarang extends StatefulWidget {
+  final Barang? barang; // untuk edit data
+
+  InventarisBarang({this.barang});
+
   @override
   _InventarisBarangState createState() => _InventarisBarangState();
 }
 
 class _InventarisBarangState extends State<InventarisBarang> {
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController namaBarangController = TextEditingController();
   final TextEditingController kodeController = TextEditingController();
   final TextEditingController lokasiController = TextEditingController();
@@ -23,6 +26,15 @@ class _InventarisBarangState extends State<InventarisBarang> {
   void initState() {
     super.initState();
     muatData();
+
+    if (widget.barang != null) {
+      final barang = widget.barang!;
+      namaBarangController.text = barang.namaBarang;
+      kodeController.text = barang.kode.toString();
+      lokasiController.text = barang.lokasi;
+      jumlahController.text = barang.jumlah.toString();
+      _selectedDate = DateTime.tryParse(barang.tanggalPerolehan);
+    }
   }
 
   Future<void> muatData() async {
@@ -33,33 +45,50 @@ class _InventarisBarangState extends State<InventarisBarang> {
   }
 
   Future<void> simpanData() async {
-    final namaBarang = namaBarangController.text;
-    final kode = int.tryParse(kodeController.text) ?? 0;
-    final lokasi = lokasiController.text;
-    final jumlah = int.tryParse(jumlahController.text) ?? 0;
-    final tanggalPerolehan = _selectedDate;
-
-    if (_formKey.currentState!.validate() && tanggalPerolehan != null) {
+    if (_formKey.currentState!.validate() && _selectedDate != null) {
       await DbHelperBarang.insertBarang(Barang(
-        namaBarang: namaBarang,
-        kode: kode,
-        lokasi: lokasi,
-        jumlah: jumlah,
-        tanggalPerolehan: DateFormat('yyyy-MM-dd').format(tanggalPerolehan),
+        namaBarang: namaBarangController.text,
+        kode: int.parse(kodeController.text),
+        lokasi: lokasiController.text,
+        jumlah: int.parse(jumlahController.text),
+        tanggalPerolehan: DateFormat('yyyy-MM-dd').format(_selectedDate!),
       ));
 
-      _formKey.currentState!.reset();
-      namaBarangController.clear();
-      kodeController.clear();
-      lokasiController.clear();
-      jumlahController.clear();
-      setState(() {
-        _selectedDate = null;
-      });
-
+      _resetForm();
       await muatData();
-      _showDialog();
+      _showDialog('Tersimpan', 'Data berhasil disimpan.');
     }
+  }
+
+  Future<void> updateData() async {
+    if (_formKey.currentState!.validate() &&
+        _selectedDate != null &&
+        widget.barang != null) {
+      final updatedBarang = Barang(
+        id: widget.barang!.id,
+        namaBarang: namaBarangController.text,
+        kode: int.parse(kodeController.text),
+        lokasi: lokasiController.text,
+        jumlah: int.parse(jumlahController.text),
+        tanggalPerolehan: DateFormat('yyyy-MM-dd').format(_selectedDate!),
+      );
+
+      await DbHelperBarang.updateBarang(updatedBarang);
+      _resetForm();
+      await muatData();
+      _showDialog('Diperbarui', 'Data berhasil diperbarui.');
+    }
+  }
+
+  void _resetForm() {
+    _formKey.currentState!.reset();
+    namaBarangController.clear();
+    kodeController.clear();
+    lokasiController.clear();
+    jumlahController.clear();
+    setState(() {
+      _selectedDate = null;
+    });
   }
 
   Future<void> _pickDate(BuildContext context) async {
@@ -76,14 +105,12 @@ class _InventarisBarangState extends State<InventarisBarang> {
     }
   }
 
-  void _showDialog() {
+  void _showDialog(String title, String message) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Pendataan Tersimpan'),
-        content: Text(
-          'Kode: ${kodeController.text}, Tersimpan'
-        ),
+        title: Text(title),
+        content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -156,11 +183,14 @@ class _InventarisBarangState extends State<InventarisBarang> {
           ),
           SizedBox(height: 16),
           ElevatedButton(
-            onPressed: simpanData,
+            onPressed: widget.barang == null ? simpanData : updateData,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color.fromARGB(202, 255, 4, 4),
             ),
-            child: Text('Simpan Data', style: TextStyle(color: Colors.white)),
+            child: Text(
+              widget.barang == null ? 'Simpan Data' : 'Update Data',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -210,6 +240,29 @@ class _InventarisBarangState extends State<InventarisBarang> {
               ],
             ),
             subtitle: Text('Tanggal Perolehan: $formattedDate'),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => InventarisBarang(barang: barang),
+                      ),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () async {
+                    await DbHelperBarang.deleteBarang(barang.id!);
+                    await muatData();
+                  },
+                ),
+              ],
+            ),
           );
         },
       ),
